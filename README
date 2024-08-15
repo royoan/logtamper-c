@@ -1,2 +1,35 @@
-  There is for WifiHack.net, it's about linux kernel hack, wireless
-hack,  wifi hack & security.
+logtamper是用c语言编写的操作linux日志的工具，
+
+编译：
+下载本仓库代码，进入 bin/logtamper, 执行make命令，发现 生成一个  logtamper的 可执行文件。
+./logtamper -h 可以查看帮助
+
+
+# 修改/var/log/lastlog 文件中某用户的登录来源地址和时间
+用法：
+（1）修改/var/log/lastlog 文件中某用户的登录来源地址和时间。
+lastlog 命令会读取该文件查看每个用户的最后一次登录信息， 也可以删除用户的登录信息，但是修改无法做到。
+例如修改 用户 ansible 的最后一次登录时间和来源地址：
+修改前：
+```
+[root@dev-app logtamper]# lastlog
+Username         Port     From             Latest
+root             pts/3    10.20.30.186     Thu Aug 15 02:06:33 +0000 2024
+ansible          pts/1    10.20.30.187     Thu Aug 15 08:31:16 +0000 2024
+```
+修改：
+```
+[root@dev-app12 logtamper]# ./logtamper -m ansible 10.20.34.121 pts/2 2023:12:28:16:23:14
+Logtamper v 1.1 for linux
+Copyright (C) 2008 by xi4oyu <evil.xi4oyu@gmail.com>
+
+Aho, now you never come here before...Check it out!
+```
+再用命令查看 lastlog
+```
+[root@dev-app12 logtamper]# lastlog
+Username         Port     From             Latest
+root             pts/3    10.20.30.186     Thu Aug 15 02:06:33 +0000 2024
+ansible          pts/2    10.20.34.121     Thu Dec 28 16:23:14 +0000 2023
+```
+
